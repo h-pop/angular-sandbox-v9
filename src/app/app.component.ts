@@ -1,10 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
+  selector: 'app-component',
+  templateUrl: 'app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'training-project-v9';
+
+  subscriptions: string[] = ['Basic', 'Advanced', 'Pro'];
+  subscription = 'Advanced';
+
+  @ViewChild('form') customForm: NgForm;
+
+  onSubmit() {
+    console.log(this.customForm);
+  }
 }
