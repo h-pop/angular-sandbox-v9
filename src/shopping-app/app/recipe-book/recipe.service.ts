@@ -13,20 +13,27 @@ export class RecipeService {
 
   constructor(private shoppingListService: ShoppingListService) { }
 
-  private recipes: Recipe[] = [
-    new Recipe('A test recipe 1', 'Description for example recipe',
-      'http://cdn.veganricha.com/wp-content/uploads/2017/05/vegan-tofu-butter-masala-veganricha-0757.jpg',
-      [
-        new Ingredient('Meat', 1),
-        new Ingredient('French fries', 20)
-      ]),
-    new Recipe('A test recipe 2', 'Description for example recipe',
-      'http://cdn.veganricha.com/wp-content/uploads/2017/05/vegan-tofu-butter-masala-veganricha-0757.jpg',
-      [
-        new Ingredient('Buns', 2),
-        new Ingredient('Meat', 1)
-      ])
-  ];
+  // private recipes: Recipe[] = [
+  //   new Recipe('A test recipe 1', 'Description for example recipe',
+  //     'http://cdn.veganricha.com/wp-content/uploads/2017/05/vegan-tofu-butter-masala-veganricha-0757.jpg',
+  //     [
+  //       new Ingredient('Meat', 1),
+  //       new Ingredient('French fries', 20)
+  //     ]),
+  //   new Recipe('A test recipe 2', 'Description for example recipe',
+  //     'http://cdn.veganricha.com/wp-content/uploads/2017/05/vegan-tofu-butter-masala-veganricha-0757.jpg',
+  //     [
+  //       new Ingredient('Buns', 2),
+  //       new Ingredient('Meat', 1)
+  //     ])
+  // ];
+
+  private recipes: Recipe[] = [];
+
+  setRecipes(recipes: Recipe[]) {
+    this.recipes = recipes;
+    this.recipesChanged.next(this.recipes.slice());
+  }
 
   getRecipes() {
     // acquiring recipes copies
