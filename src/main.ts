@@ -7,6 +7,9 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule } from './shopping-app/app/app.module';
 import { environment } from './shopping-app/environments/environment';
 
+// import { AppModule } from './authentication/app/app.module';
+// import { environment } from './authentication/environments/environment';
+
 if (environment.production) {
   enableProdMode();
 }
