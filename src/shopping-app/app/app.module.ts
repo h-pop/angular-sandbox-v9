@@ -49,6 +49,8 @@ import { PlaceholderDirective } from './shared/placeholder/placeholder.directive
     HttpClientModule
   ],
   providers: [ShoppingListService, RecipeService, { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  // omittable in Angular 9+
+  entryComponents: [AlertComponent]
 })
 export class AppModule { }
