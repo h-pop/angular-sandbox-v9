@@ -19,11 +19,11 @@ export function authReducer(
         action.payload.email,
         action.payload.userId,
         action.payload.email,
-        action.payload.expiratioNDate
+        action.payload.expirationDate
       );
       return {
         ...state,
-        user: user,
+        user,
       };
     case AuthAuctions.LOGOUT:
       return {
