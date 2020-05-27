@@ -61,56 +61,68 @@ export class AuthService {
   //     );
   // }
 
-  autoLogin() {
-    const userData: {
-      email: string;
-      id: string;
-      _token: string;
-      _tokenExpirationDate: string;
-    } = JSON.parse(localStorage.getItem('userData'));
-    if (!userData) {
-      return;
-    }
-    const loadedUser = new User(
-      userData.email,
-      userData.id,
-      userData._token,
-      new Date(userData._tokenExpirationDate)
-    );
-    if (loadedUser.token) {
-      // this.user.next(loadedUser);
-      this.store.dispatch(
-        new AuthActions.AuthenticateSuccess({
-          email: loadedUser.email,
-          userId: loadedUser.id,
-          token: loadedUser.token,
-          expirationDate: new Date(userData._tokenExpirationDate),
-        })
-      );
-      const expirationDuration =
-        new Date(userData._tokenExpirationDate).getTime() -
-        new Date().getTime();
-      this.autoLogout(expirationDuration);
-    }
-  }
+  // autoLogin() {
+  //   const userData: {
+  //     email: string;
+  //     id: string;
+  //     _token: string;
+  //     _tokenExpirationDate: string;
+  //   } = JSON.parse(localStorage.getItem('userData'));
+  //   if (!userData) {
+  //     return;
+  //   }
+  //   const loadedUser = new User(
+  //     userData.email,
+  //     userData.id,
+  //     userData._token,
+  //     new Date(userData._tokenExpirationDate)
+  //   );
+  //   if (loadedUser.token) {
+  //     // this.user.next(loadedUser);
+  //     this.store.dispatch(
+  //       new AuthActions.AuthenticateSuccess({
+  //         email: loadedUser.email,
+  //         userId: loadedUser.id,
+  //         token: loadedUser.token,
+  //         expirationDate: new Date(userData._tokenExpirationDate),
+  //       })
+  //     );
+  //     const expirationDuration =
+  //       new Date(userData._tokenExpirationDate).getTime() -
+  //       new Date().getTime();
+  //     this.autoLogout(expirationDuration);
+  //   }
+  // }
 
-  logout() {
-    // this.user.next(null);
-    this.store.dispatch(new AuthActions.Logout());
-    this.router.navigate(['./auth']);
-    localStorage.removeItem('userData');
-    if (this.tokenExpirationTimer) {
-      clearTimeout(this.tokenExpirationTimer);
-    }
-    this.tokenExpirationTimer = null;
-  }
+  // logout() {
+  //   // this.user.next(null);
+  //   this.store.dispatch(new AuthActions.Logout());
+  //   this.router.navigate(['./auth']);
+  //   localStorage.removeItem('userData');
+  //   if (this.tokenExpirationTimer) {
+  //     clearTimeout(this.tokenExpirationTimer);
+  //   }
+  //   this.tokenExpirationTimer = null;
+  // }
 
-  autoLogout(expirationDuration: number) {
+  // autoLogout(expirationDuration: number) {
+  //   this.tokenExpirationTimer = setTimeout(() => {
+  //     this.logout();
+  //   }, expirationDuration);
+  // }
+
+  public setLogoutTimer(expirationDuration: number) {
     this.tokenExpirationTimer = setTimeout(() => {
-      this.logout();
+      this.store.dispatch(new AuthActions.Logout());
     }, expirationDuration);
   }
 
+  clearLogoutTimer() {
+    if (this.tokenExpirationTimer) {
+      clearTimeout(this.tokenExpirationTimer);
+      this.tokenExpirationTimer = null;
+    }
+  }
   // private handleAuthentication(resData: AuthResponseData) {
   //   const expirationDate = new Date(
   //     new Date().getTime() + +resData.expiresIn * 1000
