@@ -1,20 +1,24 @@
 import { User } from '../user.model';
-import * as AuthAuctions from './auth.actions';
+import * as AuthActions from './auth.actions';
 
 export interface State {
   user: User;
+  authError: string;
+  loading: boolean;
 }
 
 const initialState: State = {
   user: null,
+  authError: null,
+  loading: false
 };
 
 export function authReducer(
   state = initialState,
-  action: AuthAuctions.AuthAuctions
+  action: AuthActions.AuthAuctions
 ) {
   switch (action.type) {
-    case AuthAuctions.LOGIN:
+    case AuthActions.LOGIN:
       const user = new User(
         action.payload.email,
         action.payload.userId,
@@ -23,12 +27,27 @@ export function authReducer(
       );
       return {
         ...state,
+        authError: null,
         user,
+        loading: false
       };
-    case AuthAuctions.LOGOUT:
+    case AuthActions.LOGOUT:
       return {
         ...state,
         user: null,
+      };
+    case AuthActions.LOGIN_START:
+      return {
+        ...state,
+        authError: null,
+        loading: true
+      };
+    case AuthActions.LOGIN_FAIL:
+      return {
+        ...state,
+        user: null,
+        authError: action.payload,
+        loading: false
       };
     default:
       return state;
