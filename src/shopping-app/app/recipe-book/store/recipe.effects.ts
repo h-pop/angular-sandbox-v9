@@ -1,11 +1,31 @@
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import * as RecipesActions from './recipe.actions';
+import { switchMap, map } from 'rxjs/operators';
 import { Recipe } from '../recipe.model';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
-export interface State {
-  recipes: Recipe[];
+@Injectable()
+export class RecipeEffects {
+  @Effect()
+  fetchRecipes = this.actions$.pipe(
+    ofType(RecipesActions.FETCH_RECIPES),
+    switchMap(() => {
+      return this.http.get<Recipe[]>(
+        'https://ng-shopping-app-ea58a.firebaseio.com/recipes.json'
+      );
+    }),
+    map((recipes) => {
+      return recipes.map((recipe) => {
+        return {
+          ...recipe,
+          ingredient: recipe.ingredients ? recipe.ingredients : [],
+        };
+      });
+    }),
+    map((recipes) => {
+      return new RecipesActions.SetRecipes(recipes);
+    })
+  );
+  constructor(private actions$: Actions, private http: HttpClient) {}
 }
-
-const initialState: State = {
-  recipes: [],
-};
-
-export function recipeReducer(state, action) {}
